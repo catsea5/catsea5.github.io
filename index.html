@@ -188,10 +188,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-04-08 17:03:11 / 修改时间：20:01:04" itemprop="dateCreated datePublished" datetime="2022-04-08T17:03:11+08:00">2022-04-08</time>
+              <time title="创建时间：2022-04-08 17:03:11" itemprop="dateCreated datePublished" datetime="2022-04-08T17:03:11+08:00">2022-04-08</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-04-10 12:15:22" itemprop="dateModified" datetime="2022-04-10T12:15:22+08:00">2022-04-10</time>
+              </span>
 
           
 
@@ -204,11 +210,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="1-MyBatis基础"><a href="#1-MyBatis基础" class="headerlink" title="1.MyBatis基础"></a>1.MyBatis基础</h2><h3 id="1-1MyBatis概述"><a href="#1-1MyBatis概述" class="headerlink" title="1.1MyBatis概述"></a>1.1MyBatis概述</h3><p> MyBatis 是一款持久层框架，它支持定制化SQL、储存过程以及高级映射。MyBatis避免了几乎所有的JDBC代码和手动设置参数以及获取结果集。  </p>
+          <h3 id="1-MyBatis概述"><a href="#1-MyBatis概述" class="headerlink" title="1.MyBatis概述"></a>1.MyBatis概述</h3><p> MyBatis 是一款持久层框架，它支持定制化SQL、储存过程以及高级映射。MyBatis避免了几乎所有的JDBC代码和手动设置参数以及获取结果集。  </p>
 <p><strong>mybatis结构图：</strong><br><img src="/images/pasted-2.png" alt="upload successful"></p>
 <p><strong>使用Mybatis的流程:</strong></p>
 <p><img src="/images/pasted-3.png" alt="upload successful"></p>
-<h3 id="1-2实例"><a href="#1-2实例" class="headerlink" title="1.2实例"></a>1.2实例</h3><pre><code>   可以通过实例快速理解MyBatis框架。  
+<h3 id="2-实例一"><a href="#2-实例一" class="headerlink" title="2.实例一"></a>2.实例一</h3><pre><code>   可以通过实例快速理解MyBatis框架。  
 </code></pre>
 <p>  <strong>1.添加需要的jar包</strong>  </p>
 <pre><code>mysql-connector-java-8.0.19.jar(MySQL数据库的JDBC驱动包)
@@ -241,30 +247,66 @@ mybatis-3.4.4.jar(MyBatis框架的核心jar包)
 <p>2.dao接口实现类</p>
 <p>按以下API实现数据的保存操作:<br>1.SqlSessionFactory :对连接池(DataSource)的封装<br>sqlSession openSession():获取SqlSession对象  </p>
 <p>2.SqlSession,对连接(Connection)的封装<br>int insert(String statementid, object param);<br>statementid:有mapper配置文件中的namespace+sqlid组成<br>void commit():提交事务<br>void close():释放资源  </p>
-<p>3.调用SqlSession中的insert方法,执行指定的SQL<br>public class StudentDAOImpl implements IStudentDAO {</p>
-<pre><code>@Override
-public List&lt;Student&gt; select() &#123;
-    List&lt;Student&gt; student = null;
-
-    try &#123;
-        InputStream in = Resources.getResourceAsStream(&quot;mybatis-config.xml&quot;);
-        SqlSessionFactory fac = new SqlSessionFactoryBuilder().build(in);
-
-        SqlSession session = fac.openSession();
-        student = session.selectList(&quot;cn.catsea5.mybatis.mapper.StudentMapper.select&quot;);
-    &#125; catch (IOException e) &#123;
-        e.printStackTrace();
-    &#125;
-
-    return student;
-&#125;
-&#125;  
-</code></pre>
+<p>3.调用SqlSession中的select方法,执行指定的SQL。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public class StudentDAOImpl implements IStudentDAO &#123;</span><br><span class="line"></span><br><span class="line">   @Override</span><br><span class="line">   public List&lt;Student&gt; select() &#123;</span><br><span class="line">       List&lt;Student&gt; student = null;</span><br><span class="line"></span><br><span class="line">       try &#123;</span><br><span class="line">           InputStream in = Resources.getResourceAsStream(&quot;mybatis-config.xml&quot;);</span><br><span class="line">           SqlSessionFactory fac = new SqlSessionFactoryBuilder().build(in);</span><br><span class="line"></span><br><span class="line">           SqlSession session = fac.openSession();</span><br><span class="line">           student = session.selectList(&quot;cn.catsea5.mybatis.mapper.StudentMapper.select&quot;);</span><br><span class="line">       &#125; catch (IOException e) &#123;</span><br><span class="line">           e.printStackTrace();</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       return student;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>7.Test方法</strong>  </p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@Test</span><br><span class="line">  public void Test()&#123;</span><br><span class="line">      IStudentDAO dao = new StudentDAOImpl();</span><br><span class="line">      List&lt;Student&gt; list = dao.select();</span><br><span class="line">      for(Student student : list)&#123;</span><br><span class="line">          System.out.println(student);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 <p><strong>8.实例结构与运行结果</strong></p>
 <p><img src="/images/pasted-7.png" alt="upload successful"></p>
 <p><img src="/images/pasted-6.png" alt="upload successful"></p>
+<p><strong>9.MyBatis的执行流程</strong><br>1.加载主配置文件(mybatis-config,xml)到内存中，将数据封装成对象Configuration&#x2F;Environment&#x2F;TransactionManager&#x2F;DataSource等。<br>2.通过操作拿到访问数据库的基本信息，根据这些数据创建SqlSessionFactory对象。<br>3.从SqlSessionFactory对象中获取到SqlSession对象，然后执行SQL。<br>4.使用PreparedStatement来执行指定的SQL。  </p>
+<h3 id="3-细节处理"><a href="#3-细节处理" class="headerlink" title="3.细节处理"></a>3.细节处理</h3><p><strong>1.类型别名</strong><br>在查询操作中，我们需要使用result属性指定数据封装的类型，这里的值类型的全限定名，每次都编写的话比较麻烦，比如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id=&quot;select&quot; resultType=&quot;cn.catsea5.mybatis.domain.Student&quot;&gt;</span><br><span class="line">   select * from student</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+<p>而我们可以通过主配置文件(mybatis-config.xml)来对指定的类型做别名的配置。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;typeAliases&gt;</span><br><span class="line">	&lt;package name=&quot;cn.catsea5.mybatis.domain&quot;&gt;</span><br><span class="line">&lt;/typeAliases&gt;</span><br></pre></td></tr></table></figure>
+<p>配置好后就可以直接使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id=&quot;select&quot; resultType=&quot;Student&quot;&gt;</span><br><span class="line">   select * from student</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>2.日志管理</strong><br>在持久层的开发过程当中，我们需要随时观察SQL的执行情况，如果sql有问题，我们需要能够及时发现并修改，所以如果能够在控制台中将我们执行的SQL全部打印出来，那么就可以方便的观察SQL的相关问题，要实现日志管理需要导入log4j-1.2.16.jar、slf4j-api-1.6.2.jar、slf4j-log4j12-1.6.2.jar包，并且需要在resources下创建配置文件log4j.properties,添加以下内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 全局日志配置</span><br><span class="line">log4j.rootLogger=ERROR, stdout</span><br><span class="line"># MyBatis 日志配置（这里修改对应的路径）</span><br><span class="line">log4j.logger.cn.catsea5.mybatis=TRACE</span><br><span class="line"># 控制台输出</span><br><span class="line">log4j.appender.stdout=org.apache.log4j.ConsoleAppender</span><br><span class="line">log4j.appender.stdout.layout=org.apache.log4j.PatternLayout</span><br><span class="line">log4j.appender.stdout.layout.ConversionPattern=%5p [%t] - %m%n</span><br></pre></td></tr></table></figure>
+<h3 id="4-Mapper接口和原理"><a href="#4-Mapper接口和原理" class="headerlink" title="4.Mapper接口和原理"></a>4.Mapper接口和原理</h3><p>在之前的实例一中的接口实现类中需要每次去拼写namespace.id,容易拼写错误且不方便，因此可以使用Mapper接口来简化这个过程。<br><strong>1.使用Mapper接口</strong><br><strong>使用注意</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">类似之前的DAO,在接口中定义CRUD等操作方法。Mapper组件 = Mapper接口 + Mapper Xml 文件</span><br><span class="line"></span><br><span class="line">·接口的命名为实体名 Mapper，一般和其对应XML文件放一起(只要编译之后字节码文件和XML文件在一起)；</span><br><span class="line"></span><br><span class="line">·XML命名空间用其对应接口的全限定名；</span><br><span class="line"></span><br><span class="line">·Mapper接口的方法名要和Mapper XML文件元素(select|update|delete|insert) id值一样；</span><br><span class="line"></span><br><span class="line">·方法的返回类型对应SQL元素中定义的resultType、resultMap类型；</span><br><span class="line"></span><br><span class="line">·方法的参数类型对应SQL元素中定义的paramterType类型。</span><br></pre></td></tr></table></figure>
+<p><strong>定义Mapper接口:</strong><br>结合上面的规则，我们可以定义以下Mapper接口</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">package cn.catsea5.mybatis.mapper;</span><br><span class="line"></span><br><span class="line">import cn.catsea5.mybatis.domain.Student;</span><br><span class="line"></span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">public interface StudentMapper &#123;</span><br><span class="line">    List&lt;Student&gt; select();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>然后修改接口实现类的内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public List&lt;Student&gt; select() &#123;</span><br><span class="line">        List&lt;Student&gt; student = null;</span><br><span class="line">        try &#123;</span><br><span class="line">            InputStream in = Resources.getResourceAsStream(&quot;mybatis-config.xml&quot;);</span><br><span class="line">            SqlSessionFactory fac = new SqlSessionFactoryBuilder().build(in);</span><br><span class="line">            SqlSession session = fac.openSession();</span><br><span class="line">            StudentMapper sm = session.getMapper(StudentMapper.class);</span><br><span class="line">            student = sm.select();</span><br><span class="line">        &#125; catch (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        return student;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p><strong>2.Mapper接口的原理</strong></p>
+<p><img src="/images/pasted-8.png" alt="upload successful"></p>
+<h3 id="5-MyBatis的参数处理"><a href="#5-MyBatis的参数处理" class="headerlink" title="5.MyBatis的参数处理"></a>5.MyBatis的参数处理</h3><p><strong>1.场景</strong><br>登录时，需要我们输入账号和密码，在Mapper接口中的方法根据账号和密码来查询用户。按照平常的思路修改Mapper接口会这样修改:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Student login(String name,String number);</span><br></pre></td></tr></table></figure>
+<p>可是如果这些修改，在调用时会抛出异常，所以这样传入参数是错的，因为在接口的底层只支持一个参数。<br><strong>2.解决方法</strong><br>因为只能传入一个参数，那么我们可以使用以下几种方法:<br><strong>方法一</strong>:封装成一个参数,将数据封装到Student对象当中。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Student login(Student stu);</span><br></pre></td></tr></table></figure>
+<p><strong>方法二</strong>:使用@Param注解解决。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Student login(@Param(&quot;name&quot;)String name,@Param(&quot;number&quot;)String number);</span><br></pre></td></tr></table></figure>
+<p><strong>方法三</strong>:使用集合或者数组来传参</p>
+<h3 id="6-MyBatis的-和"><a href="#6-MyBatis的-和" class="headerlink" title="6.MyBatis的#和$"></a>6.MyBatis的#和$</h3><p><strong>1.相同点</strong><br>都可以获取对象(Map对象或者JavaBean对象)的信息。<br><strong>2.不同点</strong><br><strong>·</strong> 使用#传递的参数，无论是什么数据类型都会带一个单引号；而使用$传递的参数，直接把值作为SQL语句的一部分。<br><strong>·</strong> 使用#支持把简单类型(八大基本数据类型及包装类、String、BigDecimal等等)参数作为值；而使用$不支持把简单类型参数作为值。<br><strong>·</strong> 使用#好比使用PrepareStatement，没有SQL注入的问题，相对比较安全；使用$好比使用Statement，可能会有SQL注入的问题，相对不安全。<br><strong>3.总结</strong><br>order by 或者 group by 获取参数值时使用 $;<br>其他情况使用#。</p>
+<h3 id="7-动态SQL"><a href="#7-动态SQL" class="headerlink" title="7.动态SQL"></a>7.动态SQL</h3><p><strong>1.概念</strong> </p>
+<p>动态SQL就是根据传入的变量值进行逻辑操作，并动态拼接，方便实现多条件下的数据库操作。<br>MyBatis的强大特性之一便是它的动态SQL。</p>
+<p><strong>2.if和where</strong>  </p>
+<p><strong>场景一(if)</strong>:如果我们需要查询学号大于某个值的学生，那么就需要使用到if查询，例如:<br>Mapper接口</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Student&gt; queryByNumber(int number);</span><br></pre></td></tr></table></figure>
+<p>Mapper.xml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id=&quot;queryByNumber&quot; resultType=&quot;Student&quot;&gt;</span><br><span class="line">	select * from student</span><br><span class="line">   &lt;if test=&quot;number != null&quot;&gt;</span><br><span class="line">   	where number &gt; #&#123;number&#125;</span><br><span class="line">   &lt;/if&gt;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+<p>可以看到使用if可以避免传入数据为空造成异常的情况。</p>
+<p><strong>场景二(where)</strong>:如果我们需要查询学号在某一范围的学生，那么就需要使用到where查询，例如:<br>Mapper接口</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Student&gt; queryByLeftAndRight(@Param(&quot;left&quot;)int left,@Param(&quot;right&quot;)int right);</span><br></pre></td></tr></table></figure>
+<p>Mapper.xml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id=&quot;queryByLeftAndRight&quot; resultType=&quot;Student&quot;&gt;</span><br><span class="line">	select * from Student</span><br><span class="line">    &lt;where&gt;</span><br><span class="line">    	&lt;if test=&quot;left != null&quot;&gt;</span><br><span class="line">    	  and number &amp;gt;= #&#123;left&#125;</span><br><span class="line">          &lt;!-- &amp;gt;是&#x27;&gt;&#x27; &amp;lt;是&#x27;&lt;&#x27; --&gt;</span><br><span class="line">    	&lt;/if&gt;</span><br><span class="line">    	&lt;if test=&quot;right != null&quot;&gt;</span><br><span class="line">    	  and number &amp;lt;= #&#123;right&#125;</span><br><span class="line">    	&lt;/if&gt;</span><br><span class="line">    &lt;/where&gt;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+<p>where和if一起使用就能实现动态的查询某一范围内的数据。  </p>
+<p><strong>3.set</strong>  </p>
+<p>set元素会动态前置SET关键字，同时也会删掉无关的逗号，若里面条件不成立，就会去除SET关键字。可以用来解决更新时丢失数据的问题。  </p>
+<p><strong>场景(set)</strong>:当我们需要更新数据时，比如修改学生的学号，如果使用原始的代码会出现问题，比如:<br>原始代码:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;update id=&quot;update&quot;&gt;</span><br><span class="line">	update Student set</span><br><span class="line">      name = #&#123;name&#125;,</span><br><span class="line">      number = #&#123;number&#125;,</span><br><span class="line">      age = #&#123;age&#125;,</span><br><span class="line">      sex = #&#123;sex&#125;</span><br><span class="line">    where id = #&#123;id&#125; </span><br><span class="line">&lt;/update&gt;</span><br></pre></td></tr></table></figure>
+<p>当传入的对象中某个属性值为null，就行造成更新丢失数据。<br>怎么解决这个问题呢？如果只使用if元素确实可以解决丢失数据的问题，但是相应的会出现多余逗号的问题。<br>而使用set会自动删掉无关逗号，从而解决这些问题，比如:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;update id=&quot;update&quot;&gt;</span><br><span class="line">    update Student</span><br><span class="line">    &lt;set&gt;</span><br><span class="line">      &lt;if test=&quot;name != null&quot;&gt;</span><br><span class="line">        name = #&#123;name&#125;,</span><br><span class="line">       &lt;/if&gt;</span><br><span class="line">       &lt;if test=&quot;number != null&quot;&gt;</span><br><span class="line">        number = #&#123;number&#125;,</span><br><span class="line">      &lt;/if&gt;</span><br><span class="line">      &lt;if test=&quot;age != null&quot;&gt;</span><br><span class="line">        age = #&#123;age&#125;,</span><br><span class="line">      &lt;/if&gt;</span><br><span class="line">      &lt;if test=&quot;sex != null&quot;&gt;</span><br><span class="line">        sex = #&#123;sex&#125;,</span><br><span class="line">      &lt;/if&gt;</span><br><span class="line">      &lt;/set&gt;</span><br><span class="line">    where id = #&#123;id&#125; </span><br><span class="line">&lt;/update&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>4.foreach</strong> </p>
+<p>动态SQL的另外一个常用的操作需求是对一个集合进行遍历，通常是在构件in条件语句的时候，这里就会使用到foreach元素。</p>
+<p><strong>场景(foreach)</strong>:当我们要批量删除学生信息时，如果在后端使用代码循环调用删除语句那么就会消耗较多的资源，不推荐使用，我们可以通过foreach元素在sql操作中循环删除，比如： </p>
+<p>Mapper接口：传入要删除的id数组</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void batchDelete(@param(&quot;ids&quot;)int[] ids);</span><br></pre></td></tr></table></figure>
+<p>Mapper.xml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;delete id=&quot;batchDelete&quot;&gt;</span><br><span class="line">  delete from Student where id in</span><br><span class="line">  &lt;!--</span><br><span class="line">    collectoin 遍历数组或集合的key或者属性名</span><br><span class="line">    open       遍历开始拼接的字符串</span><br><span class="line">    index      遍历索引</span><br><span class="line">    item       遍历元素</span><br><span class="line">    separator  每遍历元素拼接字符串</span><br><span class="line">    close      遍历结束拼接字符串</span><br><span class="line">  --&gt;</span><br><span class="line">  &lt;foreach collection=&quot;ids&quot; open=&quot;(&quot; item=&quot;id&quot; separator=&quot;,&quot; close=&quot;)&quot;&gt;</span><br><span class="line">    #&#123;id&#125;</span><br><span class="line">  &lt;/foreach&gt;</span><br><span class="line">&lt;/delete&gt;</span><br></pre></td></tr></table></figure>
+
 
       
     </div>

@@ -165,6 +165,69 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/05/JVM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/user.png">
+      <meta itemprop="name" content="catsea5">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="catsea5">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/12/05/JVM/" class="post-title-link" itemprop="url">JVM</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-12-05 10:01:00 / 修改时间：10:59:22" itemprop="dateCreated datePublished" datetime="2022-12-05T10:01:00+08:00">2022-12-05</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="一-JVM内存结构"><a href="#一-JVM内存结构" class="headerlink" title="一. JVM内存结构"></a>一. JVM内存结构</h2><p><img src="/images/pasted-13.png" alt="upload successful"><br><strong>线程私有</strong>：程序计数器、虚拟机栈、本地方法栈。<br><strong>线程共享</strong>：堆、方法区（jdk1.8中叫元数据区）。</p>
+<h4 id="1-程序计数器"><a href="#1-程序计数器" class="headerlink" title="1. 程序计数器"></a>1. 程序计数器</h4><p><strong>作用</strong>：存放下一条要运行的指令的地址。<br><strong>特点</strong>：线程私有，不会存在内存溢出的情况。  </p>
+<h4 id="2-虚拟机栈"><a href="#2-虚拟机栈" class="headerlink" title="2.虚拟机栈"></a>2.虚拟机栈</h4><p><strong>定义</strong>：每个线程在创建时都会创建一个虚拟机栈，虚拟机栈内部的数据单位是栈帧，每个栈帧对应这一个方法调用。<br><strong>作用</strong>：将运行时的方法封装成栈帧，保存方法了局部变量、部分结果，并参与方法的调用和返回。<br><strong>特点</strong>：线程私有，只有出栈和入栈两种操作，会存在内存溢出情况。<br><strong>溢出情况</strong>：当栈帧太多，虚拟机栈无法存储（无限递归）；当栈帧过大，虚拟机栈无法放下（方法内部处数据过大）。  </p>
+<h4 id="3-本地方法栈"><a href="#3-本地方法栈" class="headerlink" title="3.本地方法栈"></a>3.本地方法栈</h4><p><strong>定义</strong>：不同于虚拟机栈，本地方法栈是用来处理本地方法的（native修饰的方法），其他的与虚拟机栈类似。</p>
+<h4 id="4-堆"><a href="#4-堆" class="headerlink" title="4.堆"></a>4.堆</h4><p><strong>定义</strong>：堆是用来存储通过new关键字创建的对象。<br><strong>特点</strong>：线程共享，需要考虑多线程安全问题，有垃圾回收机制，存在内存溢出的情况。<br><strong>溢出情况</strong>：当垃圾回收处理不过来时，会出现OutofMemoryError。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/08/MyBatis%E6%A1%86%E6%9E%B6%E7%AC%94%E8%AE%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -464,7 +527,7 @@ mybatis-3.4.4.jar(MyBatis框架的核心jar包)
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-count">2</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
